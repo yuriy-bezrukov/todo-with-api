@@ -1,0 +1,85 @@
+.wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+.todo {
+  width: 700px;
+  background: #c3c3c3;
+  margin-top: 40px;
+  padding: 20px;
+}
+
+.new-task__submit {
+  width: 145px;
+  padding: 12px;
+  border: none;
+  cursor: pointer;
+  transition: 300ms;
+}
+
+.new-task__submit:hover {
+  background: #d0d0d0;
+}
+
+.new-task__input {
+  width: calc(100% - 150px);
+  padding: 12px;
+}
+
+.task-list {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task {
+  position: relative;
+}
+
+.task__text {
+  width: 100%;
+  padding: 12px;
+}
+
+.task__text:disabled {
+  background: #fff;
+  border: none;
+}
+
+.task__delete {
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  background: #f00;
+  border: none;
+  border-radius: 100%;
+  color: #fff;
+  width: 25px;
+  height: 25px;
+  transition: 300ms;
+  cursor: pointer;
+}
+
+.task__delete:hover {
+  background: #6a1212;
+}
+
+.task__cancel-edit,
+.task__update {
+  display: none;
+}
+
+.task--editing .task__cancel-edit,
+.task--editing .task__update {
+  display: block;
+}
+
+.task__actions {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  height: 100%;
+}

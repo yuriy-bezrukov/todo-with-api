@@ -1,0 +1,39 @@
+{
+  "name": "todo-with-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "watch": {
+    "eslint": {
+      "patterns": [
+        "./src/"
+      ],
+      "extensions": "js",
+      "quiet": false
+    },
+    "stylelint": {
+      "patterns": [
+        "./src/"
+      ],
+      "extensions": "css",
+      "quiet": false
+    }
+  },
+  "scripts": {
+    "server": "node ./node_modules/live-server/live-server.js --watch=src --port=5000",
+    "api": "node server-api",
+    "stylelint": "node ./node_modules/stylelint/bin/stylelint.js \"src/**/*.css\"",
+    "eslint": "node ./node_modules/eslint/bin/eslint.js \"src/**/*.js\"",
+    "lint": "node ./node_modules/npm-run-all/bin/npm-run-all/index.js --serial --continue-on-error --print-name --silent stylelint eslint",
+    "watch": "node ./node_modules/npm-watch/cli.js"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "8.43.0",
+    "express": "4.18.2",
+    "live-server": "1.2.2",
+    "npm-run-all": "^4.1.2",
+    "npm-watch": "0.11.0",
+    "stylelint": "15.9.0",
+    "stylelint-config-standard": "33.0.0"
+  }
+}
