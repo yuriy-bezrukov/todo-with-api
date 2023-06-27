@@ -1,38 +1,38 @@
 export const tasksSrvice = {
   baseHref: 'http://127.0.0.1:3000/item',
-  getTasks: function() {
+  getTasks: function () {
     return fetch(this.baseHref, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      }
+        'Content-Type': 'application/json;charset=utf-8',
+      },
     });
   },
-  deleteTask: function(id) {
+  deleteTask: function (id) {
     return fetch(this.baseHref, {
       method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
       },
-      body: JSON.stringify({ id: id })
+      body: JSON.stringify({ id: id }),
     });
   },
-  createTask: function(text) {
+  createTask: function (text) {
     return fetch(this.baseHref, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
       },
-      body: JSON.stringify({ text: text })
+      body: JSON.stringify({ text: text }),
     });
   },
-  updateTask: function(task) {
+  updateTask: function (task) {
     return fetch(this.baseHref, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
       },
-      body: JSON.stringify(task)
+      body: JSON.stringify(task),
     });
-  }
+  },
 };

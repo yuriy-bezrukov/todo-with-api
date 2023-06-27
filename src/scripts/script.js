@@ -1,13 +1,17 @@
-import { tasksSrvice } from './tasks-service.js'
+import { tasksSrvice } from './tasks-service.js';
 
 let taskList = [];
 
 function initTaskList() {
-  tasksSrvice.getTasks()
-    .then(res => res.json())
-    .then(res => {
+  tasksSrvice
+    .getTasks()
+    .then((res) => res.json())
+    .then((res) => {
       taskList = res;
       render();
+    })
+    .catch(() => {
+      alert('Сетевая ошибка');
     });
 }
 
@@ -15,10 +19,10 @@ const elements = {
   taskList: document.querySelector('.task-list'),
   newTask: {
     textInput: document.querySelector('.new-task__input'),
-    form: document.querySelector('.new-task')
+    form: document.querySelector('.new-task'),
   },
-  document: document
-}
+  document: document,
+};
 
 function getTaskTemplateHtml(task) {
   return ` 
@@ -34,16 +38,20 @@ function getTaskTemplateHtml(task) {
 }
 
 function render() {
-  let htmlTemplate = taskList.reduce((acc, task) => acc + getTaskTemplateHtml(task), '');
+  let htmlTemplate = taskList.reduce(
+    (acc, task) => acc + getTaskTemplateHtml(task),
+    ''
+  );
   document.querySelector('.task-list').innerHTML = htmlTemplate;
 }
 
 function onCreateTask(event) {
   event.preventDefault();
   const taskText = elements.newTask.textInput.value;
-  tasksSrvice.createTask(taskText)
-    .then(res => res.json())
-    .then(res => {
+  tasksSrvice
+    .createTask(taskText)
+    .then((res) => res.json())
+    .then((res) => {
       taskList.push(res);
       elements.newTask.textInput.value = '';
       render();
@@ -57,10 +65,11 @@ function onDeleteTask(event) {
   }
   const taskId = Number(event.target.parentElement.dataset.id);
 
-  tasksSrvice.deleteTask(taskId)
-    .then(res => res.json())
+  tasksSrvice
+    .deleteTask(taskId)
+    .then((res) => res.json())
     .then(() => {
-      taskList = taskList.filter(task => task.id !== taskId);
+      taskList = taskList.filter((task) => task.id !== taskId);
       render();
     })
     .catch(() => {
@@ -86,7 +95,8 @@ function disableTask(event) {
   if (!isCancelEdit) {
     return;
   }
-  const inputElement = event.target.parentElement.parentElement.querySelector('.task__text');
+  const inputElement =
+    event.target.parentElement.parentElement.querySelector('.task__text');
 
   if (!inputElement.disabled) {
     inputElement.setAttribute('disabled', '');
@@ -100,8 +110,11 @@ function onUpdateTask(event) {
     return;
   }
   // задание
-  // надо одновить данные в массиве
-  // вызвать render()
+  // надо:
+  // 1. обновить данные на сервере
+  // 2. при успешном ответе обновить данные в массиве
+  // 2.1 сделать render
+  // 3 при ошибке показать alert('Сетевая ошибка')
   console.warn('Надо выполнить задание выше');
 }
 
