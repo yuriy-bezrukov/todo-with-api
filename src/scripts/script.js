@@ -5,7 +5,6 @@ let taskList = [];
 function initTaskList() {
   tasksSrvice
     .getTasks()
-    .then((res) => res.json())
     .then((res) => {
       taskList = res;
       render();
@@ -32,9 +31,14 @@ function getTaskTemplateHtml(task) {
       <button class="task__cancel-edit">cancel</button> 
       <button class="task__update">update</button> 
     </div>
-    <button class="task__delete">x</button> 
+    <button class="task__delete">x</button>
+    <div class="task__date">${getDateString(task.date)}</div>
   </div> 
   `;
+}
+
+function getDateString(date) {
+  return `${date.getFullYear()}.${date.getMonth()}.${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
 }
 
 function render() {
@@ -48,13 +52,18 @@ function render() {
 function onCreateTask(event) {
   event.preventDefault();
   const taskText = elements.newTask.textInput.value;
+
+  document.querySelector('body').style.backgroundColor = 'red';
+
   tasksSrvice
     .createTask(taskText)
-    .then((res) => res.json())
-    .then((res) => {
-      taskList.push(res);
+    .then((x) => {
+      taskList.push(x);
       elements.newTask.textInput.value = '';
       render();
+    })
+    .finally(() => {
+      document.querySelector('body').style.backgroundColor = 'white';
     });
 }
 
@@ -63,17 +72,21 @@ function onDeleteTask(event) {
   if (!isDeleteButton) {
     return;
   }
-  const taskId = Number(event.target.parentElement.dataset.id);
 
+  document.querySelector('body').style.backgroundColor = 'red';
+
+  const taskId = Number(event.target.parentElement.dataset.id);
   tasksSrvice
     .deleteTask(taskId)
-    .then((res) => res.json())
     .then(() => {
       taskList = taskList.filter((task) => task.id !== taskId);
       render();
     })
     .catch(() => {
       alert('error on delete task');
+    })
+    .finally(() => {
+      document.querySelector('body').style.backgroundColor = 'white';
     });
 }
 

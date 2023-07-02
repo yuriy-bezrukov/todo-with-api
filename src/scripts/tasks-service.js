@@ -6,7 +6,13 @@ export const tasksSrvice = {
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
       },
-    });
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        return res.map((task) => {
+          return mapToTask(task);
+        });
+      });
   },
   deleteTask: function (id) {
     return fetch(this.baseHref, {
@@ -15,7 +21,7 @@ export const tasksSrvice = {
         'Content-Type': 'application/json;charset=utf-8',
       },
       body: JSON.stringify({ id: id }),
-    });
+    }).then((res) => res.json());
   },
   createTask: function (text) {
     return fetch(this.baseHref, {
@@ -24,7 +30,11 @@ export const tasksSrvice = {
         'Content-Type': 'application/json;charset=utf-8',
       },
       body: JSON.stringify({ text: text }),
-    });
+    })
+      .then((x) => x.json())
+      .then((x) => {
+        return mapToTask(x);
+      });
   },
   updateTask: function (task) {
     return fetch(this.baseHref, {
@@ -36,3 +46,12 @@ export const tasksSrvice = {
     });
   },
 };
+
+function mapToTask(taskDTO) {
+  let newTask = {
+    ...taskDTO,
+    id: Number(taskDTO.id),
+    date: new Date(taskDTO.date),
+  };
+  return newTask;
+}

@@ -1,11 +1,10 @@
 /**
  * API
- * 
+ *
  * PUT =>    input {text: 'string'}  output { text: 'string', id: 1}
  * GET =>                            output [{text: 'string', id: 1}, ...]
  * DELETE => input {id: 1}           output [{text: 'string', id: 1}, ...]
  */
-
 
 var items = []; // [{text: string, id: number}]
 var taskId = 0;
@@ -33,14 +32,18 @@ app.use('/item', jsonParser, function (req, res) {
       break;
     case 'PUT': {
       taskId++;
-      const newTask = { text: req.body.text, id: taskId };
+      const newTask = {
+        id: taskId,
+        text: req.body.text,
+        date: new Date().toISOString(),
+      };
       items.push(newTask);
       console.log('items: ', items);
       res.json(newTask);
       return;
     }
     case 'POST': {
-      const task = items.find(item => item.id === req.body.id);
+      const task = items.find((item) => item.id === req.body.id);
       if (task !== null) {
         task.text = req.body.text;
       } else {
@@ -49,7 +52,7 @@ app.use('/item', jsonParser, function (req, res) {
       break;
     }
     case 'DELETE': {
-      const filtredTaskList = items.filter(item => item.id !== req.body.id);
+      const filtredTaskList = items.filter((item) => item.id !== req.body.id);
       if (items.length !== filtredTaskList.length) {
         items = filtredTaskList;
       } else {
