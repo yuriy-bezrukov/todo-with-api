@@ -1,0 +1,101 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+.todo {
+  width: 700px;
+  background: #c3c3c3;
+  margin-top: 40px;
+  padding: 20px;
+}
+
+.new-task {
+  &__submit {
+    width: 145px;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+    transition: 300ms;
+
+    &:hover {
+      background: #d0d0d0;
+    }
+  }
+
+  &__input {
+    width: calc(100% - 150px);
+    padding: 12px;
+  }
+}
+
+.task-list {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task {
+  position: relative;
+
+  &__text {
+    width: 100%;
+    padding: 12px;
+
+    &:disabled {
+      background: #fff;
+      border: none;
+    }
+  }
+
+  &__delete {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    background: #f00;
+    border: none;
+    border-radius: 100%;
+    color: #fff;
+    width: 25px;
+    height: 25px;
+    transition: 300ms;
+    cursor: pointer;
+
+    &:hover {
+      background: #6a1212;
+    }
+  }
+
+  &__cancel-edit,
+  &__update {
+    display: none;
+  }
+
+  &--editing &__cancel-edit,
+  &--editing &__update {
+    display: block;
+  }
+
+  &__actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    height: 100%;
+  }
+
+  &__date {
+    position: absolute;
+    bottom: -10px;
+    background: #fff;
+    padding: 1px 5px;
+    border-radius: 20px;
+    border: 1px solid #c3c3c3;
+    font-size: 12px;
+  }
+}
