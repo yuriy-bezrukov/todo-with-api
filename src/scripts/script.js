@@ -2,9 +2,11 @@ import { tasksSrvice } from './tasks-service.js';
 
 let taskList = [];
 
-function initTaskList() {
+function getTasks(event) {
+  const text = event?.target?.value;
+
   tasksSrvice
-    .getTasks()
+    .getTasks(text)
     .then((res) => {
       taskList = res;
       render();
@@ -16,6 +18,7 @@ function initTaskList() {
 
 const elements = {
   taskList: document.querySelector('.task-list'),
+  liveSearch: document.querySelector('.live-search'),
   newTask: {
     textInput: document.querySelector('.new-task__input'),
     form: document.querySelector('.new-task'),
@@ -137,11 +140,12 @@ function setSubscriptions() {
   elements.taskList.addEventListener('click', setEditableTask);
   elements.taskList.addEventListener('click', disableTask);
   elements.taskList.addEventListener('click', onUpdateTask);
+  elements.liveSearch.addEventListener('input', getTasks);
 }
 
 function main() {
   setSubscriptions();
-  initTaskList();
+  getTasks();
 }
 
 main();

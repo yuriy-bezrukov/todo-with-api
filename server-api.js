@@ -28,8 +28,11 @@ app.use('/item', jsonParser, function (req, res) {
   resolveCors(res);
 
   switch (req.method) {
-    case 'GET':
+    case 'GET': {
+      console.log('search text: ', req.query.search); // надо использовать эту переменную для фильтрации задач
+      res.json(items);
       break;
+    }
     case 'PUT': {
       taskId++;
       const newTask = {
@@ -46,6 +49,7 @@ app.use('/item', jsonParser, function (req, res) {
       const task = items.find((item) => item.id === req.body.id);
       if (task !== null) {
         task.text = req.body.text;
+        res.statusCode(201);
       } else {
         res.sendStatus(404);
       }
@@ -55,16 +59,19 @@ app.use('/item', jsonParser, function (req, res) {
       const filtredTaskList = items.filter((item) => item.id !== req.body.id);
       if (items.length !== filtredTaskList.length) {
         items = filtredTaskList;
+        res.sendStatus(200);
       } else {
         res.sendStatus(404);
       }
       break;
     }
+    case 'OPTIONS': {
+      res.sendStatus(204);
+      break;
+    }
     default:
       console.log('error request', req.method, req.url);
   }
-  console.log('items: ', items);
-  res.json(items);
 });
 
 app.listen(3000, function () {

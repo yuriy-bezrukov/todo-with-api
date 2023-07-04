@@ -1,12 +1,16 @@
 export const tasksSrvice = {
   baseHref: 'http://127.0.0.1:3000/item',
-  getTasks: function () {
-    return fetch(this.baseHref, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-    })
+  getTasks: function (search) {
+    const searchParams = search ? new URLSearchParams({ search }) : null;
+    return fetch(
+      searchParams ? `${this.baseHref}?${searchParams}` : this.baseHref,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+      }
+    )
       .then((res) => res.json())
       .then((res) => {
         return res.map((task) => {
@@ -21,7 +25,7 @@ export const tasksSrvice = {
         'Content-Type': 'application/json;charset=utf-8',
       },
       body: JSON.stringify({ id: id }),
-    }).then((res) => res.json());
+    });
   },
   createTask: function (text) {
     return fetch(this.baseHref, {
