@@ -16,16 +16,23 @@
       ],
       "extensions": "css",
       "quiet": false
+    },
+    "scss": {
+      "patterns": [
+        "./src/"
+      ],
+      "extensions": "scss",
+      "quiet": false
     }
   },
   "scripts": {
-    "start": "npx concurrently -n watch,server,api \"npm run watch\" \"npm run server\" \"npm run api\"",
+    "start": "npx concurrently 'npm:watch' 'npm:server' 'npm:api'",
     "server": "node ./node_modules/live-server/live-server.js --watch=src --port=5000",
     "api": "node server-api",
-    "stylelint": "node ./node_modules/stylelint/bin/stylelint.js \"src/**/*.css\"",
+    "stylelint": "node ./node_modules/stylelint/bin/stylelint.js \"src/**/*.scss\"",
     "eslint": "node ./node_modules/eslint/bin/eslint.js \"src/**/*.js\"",
-    "watch": "node ./node_modules/npm-watch/cli.js",
-    "scss": "npx sass \"./src/styles/style.scss\"  \"./src/styles/style.css\""
+    "scss": "npx sass \"./src/styles\":\"./src/styles\"",
+    "watch": "node ./node_modules/npm-watch/cli.js"
   },
   "license": "ISC",
   "devDependencies": {
@@ -37,9 +44,10 @@
     "live-server": "1.2.2",
     "npm-watch": "0.11.0",
     "prettier": "2.8.8",
+    "sass": "^1.63.6",
     "stylelint": "15.9.0",
-    "stylelint-config-standard": "33.0.0",
-    "sass": "^1.63.6"
+    "stylelint-config-standard-scss": "^10.0.0",
+    "stylelint-scss": "^5.0.1"
   },
   "dependencies": {
   }
