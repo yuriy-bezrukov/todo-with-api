@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "mhutchie.git-graph",
+    "esbenp.prettier-vscode",
+    "softwaredotcom.swdc-vscode",
+    "formulahendry.auto-rename-tag",
+    "streetsidesoftware.code-spell-checker"
+  ]
+}
