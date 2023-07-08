@@ -1,19 +1,28 @@
-import { tasksSrvice } from './tasks-service.js';
+import { tasksService } from './services/tasks-service.js';
+import { Task } from './models/task/task.js';
+import { ImportantTask } from './models/task/important-task.js';
+import { Preloader } from './modules/preloader.js';
 
 let taskList = [];
+let idTimeout;
+const preloader = new Preloader('.todo');
 
 function getTasks(event) {
   const text = event?.target?.value;
 
-  tasksSrvice
-    .getTasks(text)
-    .then((res) => {
-      taskList = res;
-      render();
-    })
-    .catch(() => {
-      alert('Сетевая ошибка');
-    });
+  clearTimeout(idTimeout);
+
+  idTimeout = setTimeout(() => {
+    tasksService
+      .getTasks(text)
+      .then((res) => {
+        taskList = res.map((t) => new Task(t));
+        render();
+      })
+      .catch(() => {
+        alert('Сетевая ошибка');
+      });
+  }, 300);
 }
 
 const elements = {
@@ -56,17 +65,19 @@ function onCreateTask(event) {
   event.preventDefault();
   const taskText = elements.newTask.textInput.value;
 
-  document.querySelector('body').style.backgroundColor = 'red';
+  preloader.show();
 
-  tasksSrvice
+  tasksService
     .createTask(taskText)
-    .then((x) => {
-      taskList.push(x);
+    .then((res) => {
+      const newTask = res.id % 2 === 0 ? new Task(res) : new ImportantTask(res);
+      taskList.push(newTask);
       elements.newTask.textInput.value = '';
-      render();
+
+      newTask.create();
     })
     .finally(() => {
-      document.querySelector('body').style.backgroundColor = 'white';
+      preloader.hide();
     });
 }
 
@@ -76,20 +87,23 @@ function onDeleteTask(event) {
     return;
   }
 
-  document.querySelector('body').style.backgroundColor = 'red';
+  preloader.show();
 
   const taskId = Number(event.target.parentElement.dataset.id);
-  tasksSrvice
+  tasksService
     .deleteTask(taskId)
     .then(() => {
+      const task = taskList.find((task) => task.id === taskId);
+
+      task.delete();
+
       taskList = taskList.filter((task) => task.id !== taskId);
-      render();
     })
     .catch(() => {
       alert('error on delete task');
     })
     .finally(() => {
-      document.querySelector('body').style.backgroundColor = 'white';
+      preloader.hide();
     });
 }
 

@@ -1,4 +1,4 @@
-export const tasksSrvice = {
+export const tasksService = {
   baseHref: 'http://127.0.0.1:3000/item',
   getTasks: function (search) {
     const searchParams = search ? new URLSearchParams({ search }) : null;
